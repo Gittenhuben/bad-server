@@ -9,6 +9,8 @@ export const uploadFile = async (
     res: Response,
     next: NextFunction
 ) => {
+    console.log(123, req)
+
     if (!req.file) {
         return next(new BadRequestError('Файл не загружен'))
     }
