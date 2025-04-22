@@ -18,7 +18,7 @@ export const getOrders = async (
     try {
         const {
             page = 1,
-            limitFromQuery = 10,
+            limit = 10,
             sortField = 'createdAt',
             sortOrder = 'desc',
             status,
@@ -29,7 +29,7 @@ export const getOrders = async (
             search,
         } = req.query
 
-        const limit = Number(limitFromQuery) > 10 ? 10 : Number(limitFromQuery)
+        const limitNormalized = Math.min(Math.max(Number(limit), 1), 10) || 10
 
         if (
             status &&
@@ -159,13 +159,13 @@ export const getOrders = async (
                 },
             },
             { $sort: sort },
-            { $skip: (Number(page) - 1) * Number(limit) },
-            { $limit: Number(limit) }
+            { $skip: (Number(page) - 1) * limitNormalized },
+            { $limit: limitNormalized }
         )
 
         const orders = await Order.aggregate(aggregatePipeline)
         const totalOrders = await Order.countDocuments(filters)
-        const totalPages = Math.ceil(totalOrders / Number(limit))
+        const totalPages = Math.ceil(totalOrders / limitNormalized)
 
         res.status(200).json({
             orders,
@@ -188,11 +188,13 @@ export const getOrdersCurrentUser = async (
 ) => {
     try {
         const userId = res.locals.user._id
-        const { search, page = 1, limitFromQuery = 5 } = req.query
-        const limit = Number(limitFromQuery) > 10 ? 10 : Number(limitFromQuery)
+        const { search, page = 1, limit = 5 } = req.query
+
+        const limitNormalized = Math.min(Math.max(Number(limit), 1), 5) || 5
+
         const options = {
-            skip: (Number(page) - 1) * Number(limit),
-            limit: Number(limit),
+            skip: (Number(page) - 1) * limitNormalized,
+            limit: limitNormalized,
         }
 
         const user = await User.findById(userId)
@@ -254,7 +256,7 @@ export const getOrdersCurrentUser = async (
         }
 
         const totalOrders = orders.length
-        const totalPages = Math.ceil(totalOrders / Number(limit))
+        const totalPages = Math.ceil(totalOrders / limitNormalized)
 
         orders = orders.slice(options.skip, options.skip + options.limit)
 
@@ -264,7 +266,7 @@ export const getOrdersCurrentUser = async (
                 totalOrders,
                 totalPages,
                 currentPage: Number(page),
-                pageSize: Number(limit),
+                pageSize: limitNormalized,
             },
         })
     } catch (error) {
