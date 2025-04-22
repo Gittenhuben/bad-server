@@ -2,10 +2,10 @@ import multer from 'multer'
 import { join } from 'path'
 import { UPLOAD } from '../config'
 
-/*const storage = multer.diskStorage({
-    //destination: (_req, _file, cb) => cb(null, join(__dirname, `../public/${UPLOAD.temp}`))
-    destination: (_req, _file, cb) => cb(null, join(__dirname, `../public`))
-})*/
+const storage = multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, join(__dirname, `../public/${UPLOAD.temp}`))
+    //destination: (_req, _file, cb) => cb(null, join(__dirname, `../public`))
+})
 /*
 const types = [
     'image/png',
@@ -24,4 +24,4 @@ const limits = {
 }
 */
 //export default multer({ storage/*, fileFilter, limits*/ })
-export default multer({ /*storage*//*, fileFilter, limits*/ })
+export default multer({ storage/*, fileFilter, limits*/ })
