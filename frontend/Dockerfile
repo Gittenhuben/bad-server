@@ -6,6 +6,6 @@ COPY . .
 RUN npm run build
 
 FROM alpine
-WORKDIR /app
-COPY --from=frontend-builder /app/dist ./dist
-CMD [ "sh", "-c", "rm -r -f frontend-dist/* ; cp -r dist/. frontend-dist/" ]
+WORKDIR /app/frontend
+COPY --from=frontend-builder /app/dist ./dist_local
+CMD [ "sh", "-c", "rm -r -f dist/* ; cp -r dist_local/. dist/" ]

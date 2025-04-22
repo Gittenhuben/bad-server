@@ -12,7 +12,6 @@ import limiter from './utils/rateLimiter'
 
 const app = express()
 
-app.enable('trust proxy');
 app.use(limiter)
 
 app.use(cors({ origin: ORIGIN_ALLOW, credentials: true }))

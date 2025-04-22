@@ -11,5 +11,10 @@ COPY --from=backend-builder /app/package*.json .
 RUN npm ci --omit=dev
 COPY --from=backend-builder /app/dist ./dist
 COPY --from=backend-builder /app/src/public ./dist/public
+
+#for tests
+COPY --from=backend-builder /app/src /app/src
+COPY --from=backend-builder /app/src/public /app/src/public
+
 EXPOSE 3000
 CMD [ "node", "dist/app.js" ]
