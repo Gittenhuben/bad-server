@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import { constants } from 'http2'
+import { extname } from 'path'
 import BadRequestError from '../errors/bad-request-error'
+import { UPLOAD } from '../config'
 
 export const uploadFile = async (
     req: Request,
@@ -11,12 +13,13 @@ export const uploadFile = async (
         return next(new BadRequestError('Файл не загружен'))
     }
     try {
-        const fileName = process.env.UPLOAD_PATH
-            ? `/${process.env.UPLOAD_PATH}/${req.file.filename}`
-            : `/${req.file?.filename}`
+        const fileNameWithExtension = req.file.filename + extname(req.file.originalname)
+        const filePath = UPLOAD.path
+            ? `/${UPLOAD.path}/${fileNameWithExtension}`
+            : `/${fileNameWithExtension}`
         return res.status(constants.HTTP_STATUS_CREATED).send({
-            fileName,
-            originalName: req.file?.originalname,
+            fileName: filePath,
+            originalName: req.file.originalname,
         })
     } catch (error) {
         return next(error)

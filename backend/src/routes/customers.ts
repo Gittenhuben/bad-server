@@ -1,17 +1,12 @@
 import { Router } from 'express'
-import {
-    deleteCustomer,
-    getCustomerById,
-    getCustomers,
-    updateCustomer,
-} from '../controllers/customers'
-import auth from '../middlewares/auth'
+import { deleteCustomer, getCustomerById, getCustomers, updateCustomer } from '../controllers/customers'
+import sanitize from '../middlewares/sanitization'
 
 const customerRouter = Router()
 
-customerRouter.get('/', auth, getCustomers)
-customerRouter.get('/:id', auth, getCustomerById)
-customerRouter.patch('/:id', auth, updateCustomer)
-customerRouter.delete('/:id', auth, deleteCustomer)
+customerRouter.get('/',  getCustomers)
+customerRouter.get('/:id', getCustomerById)
+customerRouter.patch('/:id', sanitize, updateCustomer)
+customerRouter.delete('/:id', deleteCustomer)
 
 export default customerRouter

@@ -55,13 +55,32 @@ class Api {
 
     protected async request<T>(endpoint: string, options: RequestInit) {
         try {
-            const res = await fetch(`${this.baseUrl}${endpoint}`, {
-                ...this.options,
-                ...options,
-            })
+            const optionsAll = await this.addCsrfOptions({ ...this.options, ...options })
+            const res = await fetch(`${this.baseUrl}${endpoint}`, optionsAll)
             return await this.handleResponse<T>(res)
         } catch (error) {
             return Promise.reject(error)
+        }
+    }
+
+    private getCsrfToken = async (): Promise<string> => {
+        return this.request<string>('/csrf-token', {
+            method: 'GET',
+            credentials: 'include'
+        })
+    }
+
+    private addCsrfOptions = async(options: RequestInit): Promise<RequestInit> => {
+        if (!options.method || options.method === 'GET') {
+            return options
+        }
+        return {
+            ...options,
+            credentials: 'include',
+            headers: {
+                ...options.headers,
+                'X-CSRF-Token': await this.getCsrfToken()
+            }
         }
     }
 

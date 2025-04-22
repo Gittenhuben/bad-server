@@ -1,10 +1,8 @@
-/* eslint-disable no-param-reassign */
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import mongoose, { Document, HydratedDocument, Model, Types } from 'mongoose'
 import validator from 'validator'
-import md5 from 'md5'
-
+import bcrypt from 'bcryptjs'
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../config'
 import UnauthorizedError from '../errors/unauthorized-error'
 
@@ -53,7 +51,7 @@ const userSchema = new mongoose.Schema<IUser, IUserModel, IUserMethods>(
         email: {
             type: String,
             required: [true, 'Поле "email" должно быть заполнено'],
-            unique: true, // поле email уникально (есть опция unique: true);
+            unique: true, // поле email уникально (есть опция unique: true)
             validate: {
                 // для проверки email студенты используют validator
                 validator: (v: string) => validator.isEmail(v),
@@ -120,7 +118,7 @@ const userSchema = new mongoose.Schema<IUser, IUserModel, IUserMethods>(
 userSchema.pre('save', async function hashingPassword(next) {
     try {
         if (this.isModified('password')) {
-            this.password = md5(this.password)
+            this.password = await bcrypt.hash(this.password, 10)
         }
         next()
     } catch (error) {
@@ -128,14 +126,14 @@ userSchema.pre('save', async function hashingPassword(next) {
     }
 })
 
-// Можно лучше: централизованное создание accessToken и  refresh токена
+// Централизованное создание accessToken и  refresh токена
 
 userSchema.methods.generateAccessToken = function generateAccessToken() {
     const user = this
     // Создание accessToken токена возможно в контроллере авторизации
     return jwt.sign(
         {
-            _id: user._id.toString(),
+            _id: (user._id as Types.ObjectId).toString(),
             email: user.email,
         },
         ACCESS_TOKEN.secret,
@@ -152,7 +150,7 @@ userSchema.methods.generateRefreshToken =
         // Создание refresh токена возможно в контроллере авторизации/регистрации
         const refreshToken = jwt.sign(
             {
-                _id: user._id.toString(),
+                _id: (user._id as Types.ObjectId).toString(),
             },
             REFRESH_TOKEN.secret,
             {
@@ -161,7 +159,7 @@ userSchema.methods.generateRefreshToken =
             }
         )
 
-        // Можно лучше: Создаем хеш refresh токена
+        // Создаем хеш refresh токена
         const rTknHash = crypto
             .createHmac('sha256', REFRESH_TOKEN.secret)
             .update(refreshToken)
@@ -181,7 +179,7 @@ userSchema.statics.findUserByCredentials = async function findByCredentials(
     const user = await this.findOne({ email })
         .select('+password')
         .orFail(() => new UnauthorizedError('Неправильные почта или пароль'))
-    const passwdMatch = md5(password) === user.password
+    const passwdMatch = await bcrypt.compare(password, user.password)
     if (!passwdMatch) {
         return Promise.reject(
             new UnauthorizedError('Неправильные почта или пароль')

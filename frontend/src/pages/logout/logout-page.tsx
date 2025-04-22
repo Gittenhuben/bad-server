@@ -10,6 +10,7 @@ export default function LogoutPage() {
     const navigate = useNavigate()
     const handleFormSubmit = (e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
+        navigate(-1)
         logoutUser()
             .unwrap()
             .then(() => resetUser())

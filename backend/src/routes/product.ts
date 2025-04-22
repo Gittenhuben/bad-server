@@ -1,16 +1,8 @@
 import { Router } from 'express'
-import {
-    createProduct,
-    deleteProduct,
-    getProducts,
-    updateProduct,
-} from '../controllers/products'
+import { createProduct, deleteProduct, getProducts, updateProduct } from '../controllers/products'
+import { validateProductId, validateProductBody, validateProductUpdateBody } from '../middlewares/validations'
+import sanitize from '../middlewares/sanitization'
 import auth, { roleGuardMiddleware } from '../middlewares/auth'
-import {
-    validateObjId,
-    validateProductBody,
-    validateProductUpdateBody,
-} from '../middlewares/validations'
 import { Role } from '../models/user'
 
 const productRouter = Router()
@@ -20,6 +12,7 @@ productRouter.post(
     '/',
     auth,
     roleGuardMiddleware(Role.Admin),
+    sanitize,
     validateProductBody,
     createProduct
 )
@@ -27,14 +20,15 @@ productRouter.delete(
     '/:productId',
     auth,
     roleGuardMiddleware(Role.Admin),
-    validateObjId,
+    validateProductId,
     deleteProduct
 )
 productRouter.patch(
     '/:productId',
     auth,
     roleGuardMiddleware(Role.Admin),
-    validateObjId,
+    sanitize,
+    validateProductId,
     validateProductUpdateBody,
     updateProduct
 )
