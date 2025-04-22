@@ -29,8 +29,8 @@ services:
     expose:
       - 3000
 
-  mongo:
-    container_name: mongo
+  mongo-1:
+    container_name: mongo-1
     image: mongo:7
     restart: "no"
     volumes:
