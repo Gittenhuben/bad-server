@@ -6,7 +6,7 @@ import BadRequestError from '../errors/bad-request-error'
 import ConflictError from '../errors/conflict-error'
 import NotFoundError from '../errors/not-found-error'
 import Product from '../models/product'
-import moveFile from '../utils/fileUtils'
+import { moveFileFromTemp } from '../utils/fileUtils'
 import { CACHE, UPLOAD } from '../config'
 
 // GET /product
@@ -65,7 +65,7 @@ const createProduct = async (
         
         // Переносим картинку из временной папки
         if (image) {
-            moveFile(
+            moveFileFromTemp(
                 image.fileName,
                 join(__dirname, `../public/${UPLOAD.temp}`),
                 join(__dirname, `../public/${UPLOAD.path}`)
@@ -110,7 +110,7 @@ const updateProduct = async (
 
         // Переносим картинку из временной папки
         if (image) {
-            moveFile(
+            moveFileFromTemp(
                 image.fileName,
                 join(__dirname, `../public/${UPLOAD.temp}`),
                 join(__dirname, `../public/${UPLOAD.path}`)
