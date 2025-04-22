@@ -29,9 +29,9 @@ services:
     expose:
       - 3000
 
-  mongo-1:
-    container_name: mongo-1
-    image: mongo:7
+  mongo:
+    container_name: mongo
+    image: mongo
     restart: "no"
     volumes:
       - larek-db-volume:/data/db
