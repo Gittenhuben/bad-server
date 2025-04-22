@@ -39,7 +39,7 @@ export const validateOrderBody = celebrate({
             'string.empty': 'Не указан email',
             'string.max': '{#label} должно иметь не более {#limit} символов',
         }),
-        phone: Joi.string().required().max(200).pattern(phoneRegExp).messages({
+        phone: Joi.string().required().max(30).pattern(phoneRegExp).messages({
             'string.empty': 'Не указан телефон',
             'string.max': '{#label} должно иметь не более {#limit} символов',
         }),

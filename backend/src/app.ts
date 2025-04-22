@@ -19,12 +19,12 @@ app.use(cors({ origin: ORIGIN_ALLOW, credentials: true }))
 
 app.use(cookieParser())
 
-app.use(mongoSanitize());
-
 app.use(serveStatic(path.join(__dirname, 'public'), CACHE.static))
 
 app.use(urlencoded({ extended: true }))
 app.use(json())
+
+app.use(mongoSanitize({ allowDots: true }))
 
 app.use(routes)
 
