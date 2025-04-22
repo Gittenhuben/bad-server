@@ -29,8 +29,7 @@ export const REFRESH_TOKEN = {
 export const RATE_LIMIT = {
     enabled: process.env.RATE_LIMITED === 'true',
     windowMs: Number(process.env.RATE_LIMIT_DURATION) * 1000 || 60 * 1000,
-    limit: Number(process.env.RATE_LIMIT_POINTS) || 1000,
-    delayMs: Number(process.env.RATE_LIMIT_BLOCK) * 1000 || 15 * 1000,
+    limit: Number(process.env.RATE_LIMIT_POINTS) || 1000
 }
 
 export const CACHE = {
