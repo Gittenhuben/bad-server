@@ -1,9 +1,34 @@
-import multer from 'multer'
+import { Request, Express } from 'express'
+import multer, { FileFilterCallback } from 'multer'
 import { join } from 'path'
-import { UPLOAD } from '../config'
+
+type DestinationCallback = (error: Error | null, destination: string) => void
+type FileNameCallback = (error: Error | null, filename: string) => void
 
 const storage = multer.diskStorage({
-    destination: (_req, _file, cb) => cb(null, join(__dirname, `../public/${UPLOAD.temp}`))
+    destination: (
+        _req: Request,
+        _file: Express.Multer.File,
+        cb: DestinationCallback
+    ) => {
+        cb(
+            null,
+            join(
+                __dirname,
+                process.env.UPLOAD_PATH_TEMP
+                    ? `../public/${process.env.UPLOAD_PATH_TEMP}`
+                    : '../public'
+            )
+        )
+    },
+
+    filename: (
+        _req: Request,
+        file: Express.Multer.File,
+        cb: FileNameCallback
+    ) => {
+        cb(null, file.originalname)
+    },
 })
 
 const types = [
@@ -14,12 +39,16 @@ const types = [
     'image/svg+xml',
 ]
 
-const fileFilter: multer.Options['fileFilter'] = (_req, file, cb) => {
-    cb(null, types.includes(file.mimetype))
-}    
+const fileFilter = (
+    _req: Request,
+    file: Express.Multer.File,
+    cb: FileFilterCallback
+) => {
+    if (!types.includes(file.mimetype)) {
+        return cb(null, false)
+    }
 
-const limits = {
-    fileSize: 10 * 1024 * 1024
+    return cb(null, true)
 }
 
-export default multer({ storage, fileFilter, limits })
+export default multer({ storage, fileFilter })

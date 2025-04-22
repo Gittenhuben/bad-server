@@ -13,20 +13,20 @@ import limiter from './utils/rateLimiter'
 
 const app = express()
 
-/*if (RATE_LIMIT.enabled) {
+if (RATE_LIMIT.enabled) {
     app.use(limiter)
-}*/
+}
 
 app.use(cors({ origin: ORIGIN_ALLOW, credentials: true }))
 
 app.use(cookieParser())
 
-//app.use(serveStatic(path.join(__dirname, 'public'), CACHE.static))
+app.use(serveStatic(path.join(__dirname, 'public'), CACHE.static))
 
 app.use(urlencoded({ extended: true }))
 app.use(json())
 
-//app.use(mongoSanitize({ allowDots: true }))
+app.use(mongoSanitize({ allowDots: true }))
 
 app.use(routes)
 
