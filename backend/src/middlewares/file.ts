@@ -19,7 +19,7 @@ const fileFilter: multer.Options['fileFilter'] = (_req, file, cb) => {
 }    
 
 const limits = {
-    fileSize: 40 * 1024 * 1024
+    fileSize: 10 * 1024 * 1024
 }
 
 export default multer({ storage, fileFilter, limits })
