@@ -1,5 +1,5 @@
-import csrf from 'csurf'
 import { NextFunction, Request, Response } from 'express'
+import csrf from '@dr.pogodin/csurf'
 
 export const csrfProtectionToken = csrf({ cookie: true })
 

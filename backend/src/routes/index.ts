@@ -13,7 +13,7 @@ import { Role } from '../models/user'
 const router = Router()
 
 router.use('/csrf-token', csrfRouter)
-router.use('/auth', /*csrfProtection,*/ authRouter)
+router.use('/auth', authRouter)
 router.use('/product', csrfProtection, productRouter)
 router.use('/order', csrfProtection, auth, orderRouter)
 router.use('/upload', csrfProtection, auth, roleGuardMiddleware(Role.Admin), uploadRouter)

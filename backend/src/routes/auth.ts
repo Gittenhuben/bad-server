@@ -11,11 +11,12 @@ import {
 import auth from '../middlewares/auth'
 import { validateUserBody, validateAuthentication } from '../middlewares/validations'
 import sanitize from '../middlewares/sanitization'
+import csrfProtection from '../middlewares/csrf'
 
 const authRouter = Router()
 
 authRouter.get('/user', auth, getCurrentUser)
-authRouter.patch('/me', auth, sanitize, updateCurrentUser)
+authRouter.patch('/me', csrfProtection, auth, sanitize, updateCurrentUser)
 authRouter.get('/user/roles', auth, getCurrentUserRoles)
 authRouter.post('/login', sanitize, validateAuthentication, login)
 authRouter.get('/token', refreshAccessToken)
