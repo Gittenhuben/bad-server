@@ -1,5 +1,14 @@
+
 declare module '@dr.pogodin/csurf' {
     import express from 'express'
+
+    declare global {
+        namespace Express {
+            interface Request {
+                csrfToken(): string;
+            }
+        }
+    }
 
     declare namespace csurf {
         interface CookieOptions extends express.CookieOptions {

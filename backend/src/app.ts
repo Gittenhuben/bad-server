@@ -4,6 +4,7 @@ import cors from 'cors'
 import express, { json, urlencoded } from 'express'
 import mongoose from 'mongoose'
 import path from 'path'
+import mongoSanitize from 'express-mongo-sanitize'
 import { PORT, DB_ADDRESS, ORIGIN_ALLOW, CACHE } from './config'
 import errorHandler from './middlewares/error-handler'
 import serveStatic from './middlewares/serverStatic'
@@ -17,6 +18,8 @@ app.use(limiter)
 app.use(cors({ origin: ORIGIN_ALLOW, credentials: true }))
 
 app.use(cookieParser())
+
+app.use(mongoSanitize());
 
 app.use(serveStatic(path.join(__dirname, 'public'), CACHE.static))
 
