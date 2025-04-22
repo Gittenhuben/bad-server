@@ -10,11 +10,11 @@ export const uploadFile = async (
     next: NextFunction
 ) => {
     if (!req.file) {
-        //return next(new BadRequestError('Файл не загружен'))
-        return res.status(constants.HTTP_STATUS_CREATED).send({
+        return next(new BadRequestError('Файл не загружен'))
+        /*return res.status(constants.HTTP_STATUS_CREATED).send({
             fileName: 'aaaaa2.png',
             originalName: 'bbbbb.png'
-        })
+        })*/
     }
     try {
         const fileNameWithExtension = req.file.filename + extname(req.file.originalname)
@@ -26,11 +26,11 @@ export const uploadFile = async (
             originalName: req.file.originalname,
         })
     } catch (error) {
-        return res.status(constants.HTTP_STATUS_CREATED).send({
+        /*return res.status(constants.HTTP_STATUS_CREATED).send({
             fileName: 'aaaaa.png',
             originalName: req.file.originalname
-        })
-        //return next(error)
+        })*/
+        return next(error)
     }
 }
 
