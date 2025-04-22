@@ -30,18 +30,31 @@ services:
       - 3000
 
   mongo:
-    container_name: mongo
     image: mongo
-    restart: "no"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - larek-db-volume:/data/db
-      - ./mongo-init/weblarek.products.json:/app/weblarek.products.json:ro
-      - ./mongo-init/weblarek.users.json:/app/weblarek.users.json:ro
-    expose:
-      - 27017
-    command: 
-      - '--logpath'
-      - '/var/log/mongodb/mongod.log'
+    ports:
+      - 27017:27017
+  #  networks:
+  #    - internal
+
+  #mongo:
+  #  container_name: mongo
+  #  image: mongo
+  #  restart: "no"
+  #  volumes:
+  #    - larek-db-volume:/data/db
+  #    - ./mongo-init/weblarek.products.json:/app/weblarek.products.json:ro
+  #    - ./mongo-init/weblarek.users.json:/app/weblarek.users.json:ro
+  #  expose:
+  #    - 27017
+  #  command: 
+  #    - '--logpath'
+  #    - '/var/log/mongodb/mongod.log'
 
 volumes:
   larek-frontend-volume:
