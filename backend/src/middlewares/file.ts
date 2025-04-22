@@ -14,25 +14,19 @@ const types = [
     'image/svg+xml',
 ]
 
-const fileFilter: multer.Options['fileFilter'] = (_req, file, cb) => {
-    if (file.size < 2 * 1024) {
+const fileFilter: multer.Options['fileFilter'] = (req, file, cb) => {
+    const fileSizeApprox = Number(req.headers['content-length']) - 180 || 0
+    console.log(7, fileSizeApprox)
+    if (fileSizeApprox < 2 * 1024) {
         return cb(new Error('Файл слишком мал'));
     }
-    if (file.size > 10 * 1024 * 1024) {
+    if (fileSizeApprox > 10 * 1024 * 1024) {
         return cb(new Error('Файл слишком велик'));
     }
-    cb(null, types.includes(file.mimetype))
-}    
-
-/*const limits = {
-    fileSize: 10 * 1024 * 1024
-}*/
-/*
-const fileFilter = (req, file, cb) => {
-    if (file.size < minSize) {
-      return cb(new Error('Файл слишком мал'), false);
+    if (!types.includes(file.mimetype)) {
+        return cb(new Error('Некорректный тип файла'));
     }
-    cb(null, true);
-  };*/
+    cb(null, true)
+}
 
-export default multer({ storage, fileFilter/*, limits*/ })
+export default multer({ storage, fileFilter })
