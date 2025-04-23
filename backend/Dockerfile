@@ -15,19 +15,20 @@ RUN npm ci --omit=dev
 #RUN mkdir /app/dist/public/images
 #RUN mkdir /app/dist/public/temp
 
-RUN mkdir /app/src
-RUN mkdir /app/src/public
-RUN mkdir /app/src/public/images
-RUN mkdir /app/src/public/temp
-
+#RUN mkdir /app/src
+#RUN mkdir /app/src/public
+#RUN mkdir /app/src/public/images
+#RUN mkdir /app/src/public/temp
 
 COPY --from=backend-builder /app/dist ./dist
 COPY --from=backend-builder /app/src/public ./dist/public
 
 #for tests
-#RUN mkdir /app/src
+RUN mkdir /app/src
 COPY --from=backend-builder /app/src/public /app/src/public
 #RUN mkdir /app/src/public/temp
+RUN mkdir /app/src/public/images
+RUN mkdir /app/src/public/temp
 
 EXPOSE 3000
 CMD [ "node", "dist/app.js" ]
