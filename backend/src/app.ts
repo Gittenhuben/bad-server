@@ -26,7 +26,7 @@ app.use(serveStatic(path.join(__dirname, 'public'), CACHE.static))
 app.use(urlencoded({ extended: true }))
 app.use(json())
 
-app.use(mongoSanitize({ allowDots: true }))
+app.use(mongoSanitize())
 
 app.use(routes)
 
