@@ -1,0 +1,11 @@
+[Unit]
+Description=Larek Docker Compose
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/docker-compose -f /home/gittenhuben/larek/docker-compose.yml up
+ExecStop=/usr/bin/docker-compose -f /home/gittenhuben/larek/docker-compose.yml down
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -2,7 +2,7 @@
 
 * https://github.com/Gittenhuben/bad-server
 * Борисов Андрей, Фулстек-разработчик, когорта 15
-* https://github.com/Gittenhuben/bad-server
+* https://gittenhuben.students.nomorepartiessbs.ru
 
 ## Подготовка к работе
 1. Склонировать репозиторий
