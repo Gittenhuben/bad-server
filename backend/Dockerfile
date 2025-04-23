@@ -10,13 +10,13 @@ WORKDIR /app
 COPY --from=backend-builder /app/package*.json .
 RUN npm ci --omit=dev
 
-COPY --from=backend-builder /app/dist ./src
-COPY --from=backend-builder /app/src/public ./src/public
+COPY --from=backend-builder /app/dist /app/src
+COPY --from=backend-builder /app/src/public /app/src/public
 
 #for tests
 #RUN mkdir ./src
-RUN mkdir -p ./src/public/images
-RUN mkdir -p ./src/public/temp
+RUN mkdir -p /app/src/public/images
+RUN mkdir -p /app/src/public/temp
 
 EXPOSE 3000
 CMD [ "node", "src/app.js" ]
