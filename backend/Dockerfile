@@ -10,10 +10,10 @@ WORKDIR /app
 COPY --from=backend-builder /app/package*.json .
 RUN npm ci --omit=dev
 
-RUN mkdir /app/dist
-RUN mkdir /app/dist/public
-RUN mkdir /app/dist/public/images
-RUN mkdir /app/dist/public/temp
+#RUN mkdir /app/dist
+#RUN mkdir /app/dist/public
+#RUN mkdir /app/dist/public/images
+#RUN mkdir /app/dist/public/temp
 
 RUN mkdir /app/src
 RUN mkdir /app/src/public
