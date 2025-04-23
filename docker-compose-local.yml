@@ -25,7 +25,7 @@ services:
     build: ./backend
     restart: "no"
     volumes:
-      - larek-public-volume:/app/src/public
+      - larek-public-volume:/app/dist/public
     env_file: ./backend/.env
     expose:
       - 3000
