@@ -52,15 +52,13 @@ export interface IUser {
 }
 
 export interface ICustomer extends IUser {
-    id: string
+    _id: string
     lastOrder: string
     lastOrderDate: string
     orderCount: number
     orders: string[]
     roles: string[]
     totalAmount: number
-}
-export interface ICustomer extends IUser {
     surname: string
     deliveryAddress: string
 }

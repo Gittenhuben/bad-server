@@ -7,13 +7,14 @@ import { StatusType } from '@types'
 import clsx from 'clsx'
 import { format } from 'date-fns'
 import { useEffect, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { selectOrderByNumber } from '../../services/selector'
 import { ordersActions } from '../../services/slice/orders'
 import { getOrderByNumber } from '../../services/slice/orders/thunk'
 import { adapterOrderFromServer } from '../../utils/adapterOrderFromServer'
 import { Preloader } from '../preloader'
 import styles from './admin.module.scss'
+import { AppRoute } from '@constants'
 
 const ActionsButton = () => {
     const number = useParams().number || ''
@@ -48,7 +49,6 @@ const ActionsButton = () => {
 }
 
 export default function AdminOrderDetail() {
-    const navigate = useNavigate()
     const number = useParams().number || ''
     const dispatch = useDispatch()
     const orderData = useSelector(selectOrderByNumber(+number))
@@ -67,11 +67,12 @@ export default function AdminOrderDetail() {
                 render: (dataInfo: OrderData) => (
                     <div className={styles.admin__gridCell}>
                         <span>{dataInfo.customer}</span>
-                        <OpenInNewIcon
-                            onClick={() =>
-                                navigate(`/admin/customer/${dataInfo.key}`)
-                            }
-                        />
+                        <Link
+                            to={`${AppRoute.AdminCustomerPrefix}${dataInfo.customerId}`}
+                            state={{ background: { pathname: AppRoute.AdminCustomers }}}
+                        >
+                            <OpenInNewIcon/>
+                        </Link>
                     </div>
                 ),
             },

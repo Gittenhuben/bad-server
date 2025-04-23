@@ -1,0 +1,2 @@
+sudo docker exec -it larek-mongo mongoimport --db weblarek --collection products --file /app/weblarek.products.json --jsonArray
+sudo docker exec -it larek-mongo mongoimport --db weblarek --collection users --file /app/weblarek.users.json --jsonArray

@@ -27,6 +27,7 @@
     }
     &:hover &__action {
         opacity: 1;
+        cursor: pointer;
     }
 
     &:hover:before {

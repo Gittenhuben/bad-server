@@ -75,6 +75,7 @@ export enum AppRoute {
     Admin = '/admin',
     AdminCustomers = '/admin/customers',
     AdminCustomer = '/admin/customer/:customerId',
+    AdminCustomerPrefix = '/admin/customer/',
     AdminCustomersFilter = '/admin/customers/filter',
     AdminOrders = '/admin/orders',
     AdminOrder = '/admin/order/:number',

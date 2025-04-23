@@ -6,6 +6,8 @@
     z-index: 100;
     padding-top: 5vh;
     padding-bottom: 5vh;
+    position: fixed;
+    min-height: 90vh;
     &_active {
         display: flex;
     }
@@ -28,6 +30,9 @@
         border-radius: 3rem;
         box-sizing: border-box;
         position: relative;
+        margin: auto;
+        max-height: 90vh;
+        overflow: auto;
     }
 
     &__content {
