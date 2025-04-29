@@ -1,7 +1,6 @@
 # Проектная работа "WebLarek. Плохой сервер.", спринт 19
 
 * https://github.com/Gittenhuben/bad-server
-* Борисов Андрей, Фулстек-разработчик, когорта 15
 * https://gittenhuben.students.nomorepartiessbs.ru
 
 ## Подготовка к работе
