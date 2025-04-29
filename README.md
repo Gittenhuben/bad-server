@@ -1,17 +1,14 @@
-# Проектная работа "WebLarek. Плохой сервер.", спринт 19
+# Обеспечение безопасности проекта "Веб Ларёк. Плохой сервер"
+**Стек:** Express, MongoDB, Nginx, Docker
 
-* https://github.com/Gittenhuben/bad-server
-* https://gittenhuben.students.nomorepartiessbs.ru
+**Проверены и устранены уязвимости следующих типов:**
+* XSS (межсайтовый скриптинг)
+* CSRF (межсайтовая подделка запросов)
+* NoSQL-инъекция
+* Переполнение буфера
+* ReDoS (Regular Expression Denial of Service)
+* DDoS (Distributed Denial of Service)
+* Path Traversal (атака через обход директорий)
 
-## Подготовка к работе
-1. Склонировать репозиторий
-2. Запустить docker
-```bash
-docker compose up -d
-```
-3. Наполнить базу данных
-[README.md](.dump%2FREADME.md)
-4. Перейти по адресу http://localhost/ и на странице должны быть продукты.
-5. На странице http://localhost/login/ можно авторизоваться.
-6. Админка находится по адресу http://localhost/admin/
-
+**Запуск:**
+* `docker-compose -f docker-compose-local.yml up`
